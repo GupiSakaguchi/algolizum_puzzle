@@ -3,7 +3,11 @@ class Poland
     space = []
 
     exp.chars do |char|
-     number?(char) ? space.push(char.to_i) : operator_logic(char, space)
+      if number?(char)
+        space.push(char.to_i)
+      else
+        operator_logic(char, space)
+      end
     end
 
     space.first
