@@ -78,9 +78,9 @@ class Poland
   end
 end
 
-po = Poland.new
-p po.calc(ARGV[0])
-p po.decode(ARGV[0])
+# po = Poland.new
+# p po.calc(ARGV[0])
+# p po.decode(ARGV[0])
 
 
 
