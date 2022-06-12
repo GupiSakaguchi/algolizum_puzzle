@@ -1,4 +1,5 @@
 require '../ten_puzzle/poland'
+require 'pry'
 
 class TenPuzzleSolver
   OPERATORS = ['+', '-', '*', '/']
@@ -12,33 +13,35 @@ class TenPuzzleSolver
     numbers << num4.to_i
     res = solve(numbers, target.to_i)
 
-    p res
-    p res.size
+    p res.compact.flatten
+    p res.compact.flatten.size
   end
 
   def all
     result = []
 
     (0..9).to_a.repeated_combination(4).to_a.each do |num|
-      result << solve(num, 10)
+      value = solve(num, 10)
+      result << solve(num, 10) if value.size > 0
     end
 
-    p result.compact.size
-    p result.compact
+    r = result.compact
+    p r
+    p r.size
   end
 
   def solve(numbers, target)
     result = []
     # 4つの数字の並び順
     per = numbers.permutation.to_a
+
     per.each do |num|
       # 演算子のパターン
       operators = OPERATORS.repeated_permutation(3).to_a
       operators.each do |opt|
         # 逆ポーランドの5パターン
         # ××××○○○
-        #poland = "#{num.join('')}#{opt.join((''))}"
-        poland = (num + opt)
+        poland = num + opt
 
         res = Poland.new.calc(poland.join(''))
         result << poland.join('') if res == target
@@ -75,8 +78,11 @@ class Array
   end
 end
 
+# 3,4,7,8,10
+
 if ARGV[0]
-  TenPuzzleSolver.new.main(ARGV[0], ARGV[1], ARGV[2], ARGV[3], ARGV[4])
+  #TenPuzzleSolver.new.main(ARGV[0], ARGV[1], ARGV[2], ARGV[3], ARGV[4])
+  TenPuzzleSolver.new.main(3,4, 7, 8, 10)
 else
   TenPuzzleSolver.new.all
 end

@@ -1,3 +1,5 @@
+require 'pry'
+
 class Poland
   def calc(exp)
     space = []
@@ -35,10 +37,10 @@ class Poland
   end
 
   def operator_logic(char, space)
-    second = space.pop
-    first = space.pop
+    second = space&.pop.to_f
+    first = space&.pop.to_f
 
-    return 0 if first.nil? || second.nil?
+    return nil if first.nil? || second.nil?
 
     case char
     when '+'
@@ -51,7 +53,7 @@ class Poland
       space.push(first / second)
     end
   rescue ZeroDivisionError
-    0
+    nil
   end
 
   def decode_operator_logic(char, space)
@@ -82,9 +84,9 @@ class Poland
   end
 end
 
-# po = Poland.new
-# p po.calc(ARGV[0])
-# p po.decode(ARGV[0])
+#po = Poland.new
+#p po.calc(ARGV[0])
+#p po.decode(ARGV[0])
 
 
 
