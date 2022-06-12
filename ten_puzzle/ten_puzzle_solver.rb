@@ -36,35 +36,37 @@ class TenPuzzleSolver
     per = numbers.permutation.to_a
 
     per.each do |num|
+      poland = Poland.new
+
       # 演算子のパターン
       operators = OPERATORS.repeated_permutation(3).to_a
       operators.each do |opt|
         # 逆ポーランドの5パターン
         # ××××○○○
-        poland = num + opt
+        poland_equation = num + opt
 
-        res = Poland.new.calc(poland.join(''))
-        result << poland.join('') if res == target
+        res = poland.calc(poland_equation.join(''))
+        result << poland_equation.join('') if res == target
 
         # ×××○×○○
-        poland.swap!(3,4)
-        res = Poland.new.calc(poland.join(''))
-        result << poland.join('') if res == target
+        poland_equation.swap!(3,4)
+        res = poland.calc(poland_equation.join(''))
+        result << poland_equation.join('') if res == target
 
         # ×××○○×○
-        poland.swap!(4,5)
-        res = Poland.new.calc(poland.join(''))
-        result << poland.join('') if res == target
+        poland_equation.swap!(4,5)
+        res = poland.calc(poland_equation.join(''))
+        result << poland_equation.join('') if res == target
 
         # ×○××○×○
-        poland.swap!(2,3)
-        res = Poland.new.calc(poland.join(''))
-        result << poland.join('') if res == target
+        poland_equation.swap!(2,3)
+        res = poland.calc(poland_equation.join(''))
+        result << poland_equation.join('') if res == target
 
         # ××○××○○
-        poland.swap!(4,5)
-        res = Poland.new.calc(poland.join(''))
-        result << poland.join('') if res == target
+        poland_equation.swap!(4,5)
+        res = poland.calc(poland_equation.join(''))
+        result << poland_equation.join('') if res == target
       end
     end
 
