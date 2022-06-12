@@ -38,6 +38,8 @@ class Poland
     second = space.pop
     first = space.pop
 
+    return 0 if first.nil? || second.nil?
+
     case char
     when '+'
       space.push(first + second)
@@ -48,6 +50,8 @@ class Poland
     else
       space.push(first / second)
     end
+  rescue ZeroDivisionError
+    0
   end
 
   def decode_operator_logic(char, space)
