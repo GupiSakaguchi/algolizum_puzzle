@@ -80,11 +80,9 @@ class Array
   end
 end
 
-# 3,4,7,8,10
-
 if ARGV[0]
   #TenPuzzleSolver.new.main(ARGV[0], ARGV[1], ARGV[2], ARGV[3], ARGV[4])
-  TenPuzzleSolver.new.main(3,4, 7, 8, 10)
+  TenPuzzleSolver.new.main(3, 4, 7, 8, 10)
 else
   TenPuzzleSolver.new.all
 end
