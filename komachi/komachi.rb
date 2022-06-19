@@ -1,35 +1,53 @@
-# 1 □ 2 □ 3 □ 4 □ 5 □ 6 □ 7 □ 8 □ 9 □ = 100
+# 1 □ 2 □ 3 □ 4 □ 5 □ 6 □ 7 □ 8 □ 9 □ = TARGET
 # □をが+,-,x,/,空白の何れかを求めるロジック
+
+require 'pry'
+
 class Komachi
+  TARGET = 100
+
   def main
     vector = []
+    result = []
 
-    rec(vector)
+    rec(vector, result)
+    p result.uniq
+    p result.uniq.size
   end
 
   # 1.空白処理
   # 2.掛け算・割り算
   # 3.加減
-  def rec(vector)
+  def rec(vector, result)
     if vector.size == 8
+      eps = 0.000_000_000
+
+      r = (calc(vector) - TARGET).abs
+
+      if r == eps.to_f
+        result.push("#{decode(vector)}=#{calc(vector)}")
+      end
+
       return
     end
 
-    5.times do |operator|
-      vector.push(operator)
-
-      rec(vector2)
-
+    5.times do |i|
+      vector.push(i)
+      rec(vector, result)
       vector.pop # 1手戻す
+
+      # vector2 = vector
+      # vector2.push(i)
+      #rec(vector2, result)
     end
   end
 
   def calc(signs)
     result = calc_empty(signs)
 
-    result = calc_mul_div(result.firs, result.last)
+    result = calc_mul_div(result.first, result.last)
 
-    calc_plus_minus(result.firs, result.last)
+    calc_plus_minus(result.first, result.last)
   end
 
   def calc_empty(signs)
@@ -37,7 +55,7 @@ class Komachi
     new_signs = []
 
     value = 1
-    signs.size.times do |i|
+    signs.each_index do |i|
       add = i + 2
 
       if signs[i] == Sign::EMPTY
@@ -58,11 +76,11 @@ class Komachi
     new_vals = []
     new_signs = []
 
-    value = vals.first
+    value = vals.first.to_f
 
     # 演算子
-    signs.size.times do |i|
-      add = vals[i + 1]
+    signs.each_index do |i|
+      add = vals[i + 1].to_f
 
       case signs[i]
       when Sign::MUL
@@ -71,7 +89,7 @@ class Komachi
         value = value / add
       else
         new_vals.push(value)
-        new_signs.pusu(signs[i])
+        new_signs.push(signs[i])
         value = add
       end
     end
@@ -81,20 +99,41 @@ class Komachi
   end
 
   def calc_plus_minus(vals, signs)
-    res = vals[0]
+    result = vals[0]
 
-    signs.size.times do |i|
-      add = vals[i + 1]
+    signs.each_index do |i|
+      add = vals[i + 1].to_f
 
       case signs[i]
       when Sign::PLUS
-        res = res + add
+        result = result + add
       when Sign::MINUS
-        res = res - add
+        result = result - add
       end
     end
 
-    res
+    result
+  end
+
+  def decode(signs)
+    result = '1'
+
+    signs.each_index do |i|
+      case signs[i]
+      when Sign::PLUS
+        result = result + "+"
+      when Sign::MINUS
+        result = result + "-"
+      when Sign::MUL
+        result = result + "x"
+      when Sign::DIV
+        result = result + "/"
+      end
+
+      result = result + (i + 2).to_s
+    end
+
+    result
   end
 end
 
@@ -109,6 +148,6 @@ end
 class Pair
 end
 
-k = Komachi.new
+p Komachi.new.main
 
-p k.calc_empty([1,0,0,3,4,2,2,0])
+#p k.calc_empty([0,0,0,0,0,0,0,0])
