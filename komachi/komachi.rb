@@ -14,11 +14,11 @@ class Komachi
     end
 
     5.times do |operator|
-      vector2 = vector # 配列のcopy
-
-      vector2.push(operator)
+      vector.push(operator)
 
       rec(vector2)
+
+      vector.pop
     end
   end
 end
