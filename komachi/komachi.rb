@@ -24,6 +24,14 @@ class Komachi
     end
   end
 
+  def calc(signs)
+    result = calc_empty(signs)
+
+    result = calc_mul_div(result.firs, result.last)
+
+    calc_plus_minus(result.firs, result.last)
+  end
+
   def calc_empty(signs)
     new_vals = []
     new_signs = []
