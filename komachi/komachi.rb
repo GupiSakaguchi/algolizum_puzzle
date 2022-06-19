@@ -71,6 +71,23 @@ class Komachi
     new_vals.push(value) # 最後の値
     [new_vals, new_signs]
   end
+
+  def calc_plus_minus(vals, signs)
+    res = vals[0]
+
+    signs.size.times do |i|
+      add = vals[i + 1]
+
+      case signs[i]
+      when Sign::PLUS
+        res = res + add
+      when Sign::MINUS
+        res = res - add
+      end
+    end
+
+    res
+  end
 end
 
 module Sign
