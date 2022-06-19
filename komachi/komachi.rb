@@ -1,3 +1,5 @@
+# 1 □ 2 □ 3 □ 4 □ 5 □ 6 □ 7 □ 8 □ 9 □ = 100
+# □をが+,-,x,/,空白の何れかを求めるロジック
 class Komachi
   def main
     vector = []
@@ -18,7 +20,7 @@ class Komachi
 
       rec(vector2)
 
-      vector.pop
+      vector.pop # 1手戻す
     end
   end
 
@@ -41,6 +43,32 @@ class Komachi
     end
 
     new_vals.push(value)
+    [new_vals, new_signs]
+  end
+
+  def calc_mul_div(vals, signs)
+    new_vals = []
+    new_signs = []
+
+    value = vals.first
+
+    # 演算子
+    signs.size.times do |i|
+      add = vals[i + 1]
+
+      case signs[i]
+      when Sign::MUL
+        value = value * add
+      when Sign::DIV
+        value = value / add
+      else
+        new_vals.push(value)
+        new_signs.pusu(signs[i])
+        value = add
+      end
+    end
+
+    new_vals.push(value) # 最後の値
     [new_vals, new_signs]
   end
 end
