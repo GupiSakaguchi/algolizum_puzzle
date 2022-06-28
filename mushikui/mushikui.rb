@@ -26,3 +26,19 @@ def question
   data << '*' * 8
   data << "#{'*' * 7}9#{'*' * 5}"
 end
+
+def valid?(value, str)
+  str_value = value.to_s
+
+  return false if str_value.size != str.size
+
+  str_value.size.times do |i|
+
+    next if str[i] == '*'
+
+    return false if str_value[i] != str[i]
+
+  end
+
+  true
+end
